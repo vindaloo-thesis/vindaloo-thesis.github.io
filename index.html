@@ -130,20 +130,20 @@ contract RPS {
           <section>
             <h2>Catch errors using types</h2>
             <p>
-              Start with a descriptive type signature
+              We start by including ether in the type signature:
             </p>
             <pre><code>
 addPlayer : Int -> (success : Bool)
-            { IN: value >= 10; }
+            { IN: value >= 10 }
             </pre></code>
             <ul>
-            <li>Function is undefined for value < 10</li>
+            <li  class="fragment">Function is undefined for value < 10</li>
             </ul>
           </section>
           <section>
             <h2>Catch errors using types</h2>
             <p>
-              Describe ether flow
+              Describe ether flow:
             </p>
             <pre><code>
 addPlayer : Int -> (success : Bool)
@@ -153,7 +153,7 @@ addPlayer : Int -> (success : Bool)
             </pre></code>
             <ul>
             <li>Function is undefined for value < 10</li>
-            <li>saved+sent defined for all paths</li>
+            <li class="fragment">saved+sent defined for all paths</li>
             </ul>
           </section>
           <section>
@@ -166,12 +166,15 @@ addPlayer : Commit Int -> (success : Bool)
             { IN: value >= 10;
               SEND: success ? value - 10 : value;
               SAVE: success ? 10         : 0 }
-
-open : Commit Int
             </pre></code>
             <ul>
-            <li>Commitment constructs part of cryptography standard library</li>
+            <li class="fragment">Commitments part of the language</li>
+            <li class="fragment">Revealing function is generated at compile-time</li>
+            <li class="fragment">Accessed using a library function:<pre><code>
+open : Commit a -> a
+            </code></pre></li>
             </ul>
+            
           </section>
         </section>
         <section>
