@@ -58,31 +58,7 @@
             <li class="fragment">Annotate types to generate boilerplate code</li>
           </ul>
         </section>
-        <section>
-          <h2>Common errors</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Mistake</th>
-                <th>Solution</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Openly communicating secret information</td>
-                <td>Include crypto schemes in the language and stdlib</td>
-              </tr>
-              <tr>
-                <td>No handling of ether</td>
-                <td>Encode ether flow in the type system</td>
-              </tr> <!--
-              <tr>
-                <td>Incentive incompatibility</td>
-                <td>?</td>
-              </tr> -->
-            </tbody>
-          </table>
-        </section>
+        
         <section>
           <section>
           <h2>Case study:<br>Rock-paper-scissors</h2>
@@ -126,8 +102,38 @@ contract RPS {
   //[...]
 }
           </code></pre>
+                    <p class="fragment">Better, but the move is still revealed!</p>
 </section>
         </section>
+
+
+        <section>
+          <h2>Common errors</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Mistake</th>
+                <th>Solution</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>No handling of ether</td>
+                <td>Encode ether flow in the type system</td>
+              </tr>
+              <tr>
+                <td>Openly communicating secret information</td>
+                <td>Include crypto schemes in the language and stdlib</td>
+              </tr>
+              <!--
+              <tr>
+                <td>Incentive incompatibility</td>
+                <td>?</td>
+              </tr> -->
+            </tbody>
+          </table>
+        </section>
+
         <section>
           <section>
             <h2>Catch errors using types</h2>
