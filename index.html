@@ -41,18 +41,107 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
+					<h1>Vindaloo</h1>
+					<h3>Type-driven contract development</h3>
 					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
+          <small>Jack Pettersson and Robert Edström</small><br>
+						<small>MSc thesis at Chalmers University of Technology, Sweden</small>
 					</p>
 				</section>
 
 				<section>
-					<h2>Hello There</h2>
+					<h2>Motivations</h2>
+					<ul>
+						<li class="fragment">Catch bugs at compile time</li>
+						<li class="fragment">What can be enforced using the type system?</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Common errors</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Mistake</th>
+								<th>Solution</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Openly communicating secret information</td>
+								<td>High-level cryptography library</td>
+							</tr>
+							<tr>
+								<td>Leaking ether</td>
+								<td>Encode ether flow in type system</td>
+							</tr>
+							<tr>
+								<td>Incentive incompatibility</td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<section>
+					<h2>Leaking ether:<br>Rock-paper-scissors</h2>
+<p>A game of two players. Joining costs exactly 10 ether.</p>
+					<pre class="fragment"><code class="hljs" data-trim contenteditable>
+contract RPS {
+	uint nPlayers;
+	mapping (address => move) public moves;
+	function addPlayer(uint move) returns (boolean success) {
+		if (nPlayers < 2 && msg.value >= 10) {
+			moves[msg.sender] = move;
+			nPlayers++;
+			return true;
+		else {
+			return false;
+		}
+	}
+	//[...]
+}
+					</code></pre>
+					<p class="fragment">Can you see any problems?</p>
+</section>
+					<section>
+					<h2>Leaking ether:<br>Rock-paper-scissors</h2>
+					<p>Amended version</p>
+					<pre><code class="hljs" data-trim contenteditable>
+contract RPS {
+	uint nPlayers;
+	mapping (address => move) public moves;
+	function addPlayer(uint move) returns (boolean success) {
+		if (nPlayers < 2 && msg.value >= 10) {
+			moves[msg.sender] = move;
+			nPlayers++;
+			msg.sender.send(msg.value - 10);
+			return true;
+		else {
+			msg.sender.send(msg.value);
+			return false;
+		}
+	}
+	//[...]
+}
+					</code></pre>
+</section>
+				</section>
+				<section>
+					<h2>Catch errors using types</h2>
 					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
+						Start with a descriptive type signature
 					</p>
+					<pre><code>
+addPlayer : Int -> (success : Bool)
+            { IN: value >= 10;
+              SEND: success ? value - 10 : value;
+              SAVE: success ? 10         : 0 }
+					</pre></code>
+					<ul>
+					<li>Function is undefined for value < 10</li>
+					<li>saved+sent is always >= value</li>
+					<li>First implementation is a type error</li>
+					</ul>
 				</section>
 
 				<!-- Example of nested vertical slides -->
