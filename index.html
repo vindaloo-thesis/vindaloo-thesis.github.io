@@ -147,13 +147,14 @@ addPlayer : Int -> (success : Bool)
             </p>
             <pre><code>
 addPlayer : Int -> (success : Bool)
-            { IN: value >= 10;
+            { IN:   value >= 10;
               SEND: success ? value - 10 : value;
               SAVE: success ? 10         : 0 }
             </pre></code>
             <ul>
             <li>Function is undefined for value < 10</li>
             <li class="fragment">saved+sent defined for all paths</li>
+            <li class="fragment">Previous implementation wouldn't type check</li>
             </ul>
           </section>
           <section>
@@ -163,7 +164,7 @@ addPlayer : Int -> (success : Bool)
             </p>
             <pre><code>
 addPlayer : Commit Int -> (success : Bool)
-            { IN: value >= 10;
+            { IN:   value >= 10;
               SEND: success ? value - 10 : value;
               SAVE: success ? 10         : 0 }
             </pre></code>
@@ -181,7 +182,7 @@ open : Commit a -> a
           <h2>Type-correct implementation</h2>
           <pre><code class="Haskell">
 addPlayer : Commit Int -> (success : Bool)
-            { IN: value >= 10;
+            { IN:   value >= 10;
               SEND: success ? value - 10 : value;
               SAVE: success ? 10         : 0 }
 addPlayer {value} move = if !nPlayers < 2
@@ -207,7 +208,7 @@ addPlayer {value} move = if !nPlayers < 2
           <h2>Summary</h2>
 <p>An expressive type-system can...
           <ul>
-            <li>Catch errors at compile-time</li>
+            <li>Catch large classes of errors at compile-time</li>
             <li>Generate boiler-plate code</li>
           </ul>
 </p>
