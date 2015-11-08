@@ -127,21 +127,35 @@ contract RPS {
 </section>
         </section>
         <section>
-          <h2>Catch errors using types</h2>
-          <p>
-            Start with a descriptive type signature
-          </p>
-          <pre><code>
+          <section>
+            <h2>Catch errors using types</h2>
+            <p>
+              Start with a descriptive type signature
+            </p>
+            <pre><code>
+addPlayer : Int -> (success : Bool)
+            { IN: value >= 10; }
+            </pre></code>
+            <ul>
+            <li>Function is undefined for value < 10</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Catch errors using types</h2>
+            <p>
+              Start with a descriptive type signature
+            </p>
+            <pre><code>
 addPlayer : Int -> (success : Bool)
             { IN: value >= 10;
               SEND: success ? value - 10 : value;
               SAVE: success ? 10         : 0 }
-          </pre></code>
-          <ul>
-          <li>Function is undefined for value < 10</li>
-          <li>saved+sent is always >= value</li>
-          <li>First RPS implementation is a type error</li>
-          </ul>
+            </pre></code>
+            <ul>
+            <li>Function is undefined for value < 10</li>
+            <li>saved+sent defined for all paths</li>
+            </ul>
+          </section>
         </section>
         <section>
           <h2>Type-correct implementation</h2>
