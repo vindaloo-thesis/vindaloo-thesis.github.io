@@ -109,7 +109,7 @@ contract RPS {
 					<pre><code class="hljs" data-trim contenteditable>
 contract RPS {
 	uint nPlayers;
-	mapping (address => move) public moves;
+	mapping (address => uint) public moves;
 	function addPlayer(uint move) returns (boolean success) {
 		if (nPlayers < 2 && msg.value >= 10) {
 			moves[msg.sender] = move;
@@ -143,6 +143,34 @@ addPlayer : Int -> (success : Bool)
 					<li>First RPS implementation is a type error</li>
 					</ul>
 				</section>
+				<section>
+					<h2>Type-correct implentation</h2>
+					<pre><code>
+addPlayer : Int -> (success : Bool)
+            { IN: value >= 10;
+              SEND: success ? value - 10 : value;
+              SAVE: success ? 10         : 0 }
+addPlayer {value} = if !nPlayers < 2
+                       then do save value
+                            -- save move and increment counter
+                               return True
+                       else do send value !sender
+                               return False	 
+					</pre></code>
+				</section>
+				<section>
+					<h2>Implementation</h2>
+          [mention of idris]
+				</section>
+				<section>
+          <h2>Summary</h2>
+<p>An expressive type-system can...
+          <ul>
+            <li>Catch errors at compile-time</li>
+            <li>Generate boiler-plate code</li>
+          </ul>
+</p>
+        </section>
 
 				<!-- Example of nested vertical slides -->
 				<section>
