@@ -165,11 +165,12 @@ addPlayer : Int -> (success : Bool)
               SEND: success ? value - 10 : value;
               SAVE: success ? 10         : 0 }
 addPlayer {value} move = if !nPlayers < 2
-                       then do save value
-                               -- save move and increment counter
-                               return True
-                       else do send value !sender
-                               return False   
+                           then do save value
+                                   -- save move
+                                   -- increment counter
+                                   return True
+                           else do send value !sender
+                                   return False   
           </pre></code>
         </section>
         <section>
