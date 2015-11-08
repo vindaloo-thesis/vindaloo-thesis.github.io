@@ -144,13 +144,13 @@ addPlayer : Int -> (success : Bool)
           </ul>
         </section>
         <section>
-          <h2>Type-correct implentation</h2>
+          <h2>Type-correct implementation</h2>
           <pre><code>
 addPlayer : Int -> (success : Bool)
             { IN: value >= 10;
               SEND: success ? value - 10 : value;
               SAVE: success ? 10         : 0 }
-addPlayer {value} = if !nPlayers < 2
+addPlayer {value} move = if !nPlayers < 2
                        then do save value
                             -- save move and increment counter
                                return True
