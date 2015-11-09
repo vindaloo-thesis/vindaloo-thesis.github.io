@@ -49,7 +49,7 @@
           </div>
           </p>
           <aside class="notes">
-Hello everyone. My name is Robert, and I am currently working on my master's thesis together with Jack. We're here to talk to you about how smart contracts are a perfect fit for a dependently typed functional and why we want to create a new language targeting the EVM. We will walk you through a simple example illustrating a class of errors common among new contract developers and how an expressive type system can help.
+Hello everyone. My name is Robert, and I am currently working on my master's thesis together with Jack. We're here to talk to you about how smart contracts are a perfect fit for a dependently typed functional languages and why we want to create a new language targeting the EVM. We will walk you through a simple example illustrating a class of errors common among new contract developers and how an expressive type system can help.
           </aside>
         </section>
 
@@ -160,6 +160,15 @@ addPlayer : Int -> (success : Bool)
             <ul>
             <li  class="fragment">Function is undefined for value < 10</li>
             </ul>
+
+            <aside class="notes">
+            Ok, so if we want to constrain the ether flow using the type system, what can we do? Well, we can start with including the transaction value in the type signature, like this.
+
+            As you can see, we have also predicated the value, saying that this function requires at least 10 ether to run. Otherwise the transaction is invalid for our purposes, and any ether is returned to the sender.
+
+            This is certainly neat, but it doesn't solve our problems. But as you can see, we already know both the function's result and the transaction value. This is actually enough to specify how the function should handle the ether in all execution paths.
+          </aside>
+
           </section>
           <section data-transition="fade-in fade-out" data-center="false">
             <h2>Catch errors using types</h2>
@@ -177,6 +186,10 @@ addPlayer : Int -> (success : Bool)
             <li class="fragment">saved+sent defined for all paths</li>
             <li class="fragment">Previous implementation wouldn't type check</li>
             </ul>
+
+            <aside class="notes">
+              We just take the return value and do a conditional check on it. (Point to the conditional check.) 
+          </aside>
           </section>
           <section data-transition="fade-in slide-out">
             <h2>Catch errors using types</h2>
