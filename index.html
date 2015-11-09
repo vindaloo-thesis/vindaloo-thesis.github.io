@@ -129,7 +129,7 @@ contract RPS {
           </code></pre>
                     <p class="fragment">Better, but the move is still revealed!</p>
           <aside class="notes">
-            So this is good. But there is one problem left!<br>
+            So this is better. But there is one problem left!<br>
             <em>click</em><br>
             Since the blockchain is transparent, the first player will reveal its move to the second player!
           </aside>
@@ -270,7 +270,7 @@ addPlayer {value} move = if !nPlayers < 2
 
           <aside class="notes">
             Ok, so how have we solved all this? Some of you might have noticed that the syntax we use is very similar to Haskell. We're using a language called Idris, which is inspired by Haskell but has dependent types and algebraic side-effects. This is what allows us to be so expressive in the type signatures.
-          
+
             When we first started looking at this project, we just wanted to have something like Haskell on the blockchain. The more we looked at the problems, the more we realized that dependent types would be really neat. Lazy evaluation would also be prohibitively expensive to be useful in real life. The we found Idris. It's a recent research language that 
           </aside>
 
