@@ -61,12 +61,12 @@ Hello everyone. My name is Robert, and I am currently working on my master's the
           </ul>
           <aside class="notes">
 Because of the way the Ethereum blockchain looks, there are some specific concerns for developers writing smart contracts. When depoying a smart contract to production, you want to be really sure that it behaves precisely as intended. An expressive type system could be a huge help here.
-Also, recently, there has been research on the use of combinators in encoding financial contracts. A functional language that is more developer-friendly and high-level than LLL could therefore have its place in the ecosystem.
-
+          Also, recently, there has been research on the use of combinators in encoding financial contracts. A functional language that is more developer-friendly and high-level than LLL could therefore have its place in the ecosystem.
+Jack will now present an e oy contract to illustrate two types of errors that programmers make when they start developing smart contracts and how we can catch them at compile time.
           </aside>
         </section>
         <section>
-          <section>
+          <section data-transition="slide-in fade-out">
           <h2>Leaking ether:<br>Rock-paper-scissors</h2>
 <p>A game of two players. Joining costs exactly 10 ether.</p>
           <pre class="fragment"><code class="hljs" data-trim contenteditable>
@@ -77,8 +77,10 @@ contract RPS {
     if (nPlayers < 2 && msg.value >= 10) {
       moves[msg.sender] = move;
       nPlayers++;
+
       return true;
     else {
+
       return false;
     }
   }
@@ -86,8 +88,8 @@ contract RPS {
 }
           </code></pre>
           <p class="fragment">Can you see any problems?</p>
-</section>
-          <section>
+          </section>
+          <section data-transition="fade-in fade-out">
           <h2>Leaking ether:<br>Rock-paper-scissors</h2>
           <p>Amended version</p>
           <pre><code class="hljs" data-trim contenteditable>
