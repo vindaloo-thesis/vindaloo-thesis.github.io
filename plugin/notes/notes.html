@@ -36,13 +36,15 @@
 				color: rgba( 255, 255, 255, 0.9 );
 			}
 
-			#current-slide {
+			#speaker-controls {
 				position: absolute;
 				width: 65%;
 				height: 100%;
 				top: 0;
 				left: 0;
-				padding-right: 0;
+				overflow: auto;
+
+				font-size: 18px;
 			}
 
 			#upcoming-slide {
@@ -53,15 +55,13 @@
 				top: 0;
 			}
 
-			#speaker-controls {
+			#current-slide {
 				position: absolute;
 				top: 40%;
 				right: 0;
 				width: 35%;
 				height: 60%;
-				overflow: auto;
-
-				font-size: 18px;
+				padding-right: 0;
 			}
 
 				.speaker-controls-time.hidden,
@@ -152,8 +152,6 @@
 
 	<body>
 
-		<div id="current-slide"></div>
-		<div id="upcoming-slide"><span class="label">UPCOMING:</span></div>
 		<div id="speaker-controls">
 			<div class="speaker-controls-time">
 				<h4 class="label">Time <span class="reset-button">Click to Reset</span></h4>
@@ -171,6 +169,8 @@
 				<div class="value"></div>
 			</div>
 		</div>
+		<div id="current-slide"></div>
+		<div id="upcoming-slide"><span class="label">UPCOMING:</span></div>
 
 		<script src="../../plugin/markdown/marked.js"></script>
 		<script>
