@@ -49,7 +49,7 @@
           </div>
           </p>
           <aside class="notes">
-Hello everyone. My name is Robert, and I am currently working on my master's thesis together with Jack. We're working on a new programming language for the EVM. We're here to talk about how smart contracts are a perfect fit for a dependently typed functional languages and why we want to create this language targeting the EVM. We will walk you through a simple example illustrating a class of errors common among new contract developers and how an expressive type system can help.
+Hello everyone. My name is Robert, and I am currently working on my master's thesis together with Jack. We're working on a new programming language for the EVM. We're here to talk about how smart contracts are a great fit for a dependently typed functional language and why we want to create this language for the EVM. We also have a small example showing how an expressive type system can help in contract development. 
           </aside>
         </section>
 
@@ -62,9 +62,11 @@ Hello everyone. My name is Robert, and I am currently working on my master's the
             <li class="fragment">Functional paradigm</li>
           </ul>
           <aside class="notes">
-Because of the way the Ethereum blockchain looks, there are some specific concerns for developers writing smart contracts. When deploying a smart contract to production, you want to be really sure that it behaves precisely as intended. An expressive type system could be a huge help here.
+When you deploy a smart contract to production, you want to be really sure that it behaves precisely as intended. The more the compilator can catch, the better.
+<br><br>
     We also want to give high-level abstractions of standard behaviour and common patterns for developers. Examples are boilerplate wrappers for error handling and cleanup and high-level cryptography functionality.
-    Also, there has recently been research on the use of combinators in encoding financial contracts. A functional language that is more developer-friendly and high-level than LLL could therefore have its place in the ecosystem.
+<br><br>
+    Also, I hope that after hearing Greg this morning you can appreciate that a language that allows for compositionality of combinators and functions can be really powerful. LLL is functional, but a bit too low-level for a lot of purposes. 
 Jack will now present two types of errors that programmers make when they start developing smart contracts and how we can catch them at compile time.
           </aside>
         </section>
