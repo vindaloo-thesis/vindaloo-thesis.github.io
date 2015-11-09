@@ -163,7 +163,7 @@ addPlayer : Int -> (success : Bool)
 
             <aside class="notes">
             Ok, so if we want to constrain the ether flow using the type system, what can we do? Well, we can start with including the transaction value in the type signature, like this.
-
+            <em>click</em>
             As you can see, we have also predicated the value, saying that this function requires at least 10 ether to run. Otherwise the transaction is invalid for our purposes, and any ether is returned to the sender.
 
             This is certainly neat, but it doesn't solve our problems. But as you can see, we already know both the function's result and the transaction value. This is actually enough to specify how the function should handle the ether in all execution paths.
@@ -183,14 +183,16 @@ addPlayer : Int -> (success : Bool)
             </pre></code>
             <ul>
             <li>Function is undefined for value < 10</li>
-            <li class="fragment">saved+sent defined for all paths</li>
+            <li>saved+sent defined for all paths</li>
             <li class="fragment">Previous implementation wouldn't type check</li>
             </ul>
 
             <aside class="notes">
-              We just take the return value and do a conditional check on it. (Point to the conditional check.) If the player <strong>was</strong> able to join the game, we should save 10 ether and send away the rest. If the player <strong>wasn't</strong> able to join the game, we should not save any ether and everything should be sent away.
+              We just take the return value and do a conditional check on it. <em>Point to the conditional check.</em> If the player <strong>was</strong> able to join the game, we should save 10 ether and send away the rest. If the player <strong>wasn't</strong> able to join the game, we should not save any ether and everything should be sent away.
+              <em>click</em>
+              Now, this type signature actually causes the problematic implementation to fail <strong>at compile-time</strong>. This is actually quite amazing, because we have catched a large class of bugs without any testing or formal verification whatsoever. This technique can actually be used to encode *any* contract behavior directly in the type signatures. But this requires some additional effort from the developer, and we will not go any deeper into this.
 
-              Now, this type signature actually causes the problematic implementation to fail <strong>at compile-time</strong>. This is actually quite amazing, because we have catched
+              But we still have the problem that the player's move is exposed to the opponent. The way to solve this is to use cryptographic commitments. What they allow you to do is to commit to a secret value and then reveal it at a later time. But developers shouldn't have to implement commitment schemes over and over. It is tedious and error-prone.
           </aside>
           </section>
           <section data-transition="fade-in slide-out">
@@ -205,13 +207,15 @@ addPlayer : Commit Int -> (success : Bool)
               SAVE: success ? 10         : 0 }
             </pre></code>
             <ul>
-            <li class="fragment">Commitments part of the language</li>
+            <li>Commitments part of the language</li>
             <li class="fragment">Revealing function is generated at compile-time</li>
             <li class="fragment">Accessed using a library function:<pre><code>
 open : Commit a -> a
             </code></pre></li>
             </ul>
-            
+            <aside class="notes">
+              The way we solve this is by annotating the type of the move, to indicate that this value should be treated as a commitment. <em>click</em> The compiler will then automatically generate a function for the sender to reveal it. <em>click</em> When it has been revealed, it can be accessed in-code by using the "open" function from the standard library. It takes any commitment and returns the actual value. If the commitment has not been revealed when "open" is called, the transaction is invalid for our purposes and any ether is returned to the sender.
+            </aside>
           </section>
         </section>
         <section>
