@@ -90,12 +90,20 @@ contract RPS {
   //[...]
 }
           </code></pre>
-          <p class="fragment">Can you see any problems?</p>
+          <p class="fragment">Ether is not handled correctly!</p>
           <aside class="notes">
-            Ok, so we look at a simple rock-paper-scissors game where each player pays 10 ether to join and the winner receives 20 ether. I think you all know the rules..?
-            <em>click</em>
+            Ok, so we look at a simple rock-paper-scissors game where each player pays 10 ether to join and the winner receives 20 ether. I think you all know the rules..?<br>
+            <em>click</em><br>
             Here is a small example implementation of the function for players to join the game. It's very straight forward:
-              
+              <ul>
+                <li>The game can only be joined if it isn't full.</li>
+                <li>The player has to pay the fee.</li>
+                <li>We save the player's move and address. The move is just 0, 1 or 2.</li>
+              </ul>
+            
+            This seems quite reasonable, but there is actually a few bugs here. Can you see them?<br>
+            
+            What happens if a third player tries to join the game? <em>click</em> He loses all his ether, and there is no way to retrieve it! So let's fix this.
           </aside>
           </section>
           <section data-transition="fade-in fade-out">
@@ -120,6 +128,11 @@ contract RPS {
 }
           </code></pre>
                     <p class="fragment">Better, but the move is still revealed!</p>
+          <aside>
+            So this is good. But there is one problem left!<br>
+            <em>click</em><br>
+            Since the blockchain is transparent, the first player will reveal its move to the second player!
+          </aside>
 </section>
         </section>
 
@@ -148,6 +161,10 @@ contract RPS {
               </tr> -->
             </tbody>
           </table>
+
+          <aside>
+            Ok, so we have (at least) two classes of errors that are common for developers that are getting into smart contract development. What we are trying to do is to see if we can use en expressive type system to solve these.
+          </aside>
         </section>
 
 
@@ -168,9 +185,9 @@ addPlayer : Int -> (success : Bool)
             </ul>
 
             <aside class="notes">
-            Ok, so if we want to constrain the ether flow using the type system, what can we do? Well, we can start with including the transaction value in the type signature, like this.
-            <em>click</em>
-            As you can see, we have also predicated the value, saying that this function requires at least 10 ether to run. Otherwise the transaction is invalid for our purposes, and any ether is returned to the sender.
+            Ok, so if we want to constrain the ether flow using the type system, what can we do? Well, we can start with including the transaction value in the type signature, like this.<br>
+            <em>click</em><br>
+            As you can see, we have also predicated the value, saying that this function requires at least 10 ether to run. Otherwise the transaction is invalid for our purposes, and any ether is returned to the sender.<br>
 
             This is certainly neat, but it doesn't solve our problems. But as you can see, we already know both the function's result and the transaction value. This is actually enough to specify how the function should handle the ether in all execution paths.
           </aside>
