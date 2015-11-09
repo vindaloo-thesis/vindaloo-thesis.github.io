@@ -206,7 +206,7 @@ addPlayer : Int -> (success : Bool)
             As you can see, we have also put a precondition on the value, saying that this function requires at least 10 ether to run. Otherwise the transaction is invalid for our purposes, and any ether is returned to the sender.
             </p>
             <p>
-            This is certainly neat, and useful in asynchronous execution models, but it doesn't solve <strong>our</strong> problems.
+            This is certainly neat, but it doesn't solve <strong>our</strong> problems.
             </p>
             <p>
             But as you can see, we already know <strong>both</strong> the function's result <strong>and</strong> the transaction value. This is actually enough information to specify how the function should handle ether in all execution paths.
