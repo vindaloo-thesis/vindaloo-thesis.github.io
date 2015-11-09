@@ -188,7 +188,9 @@ addPlayer : Int -> (success : Bool)
             </ul>
 
             <aside class="notes">
-              We just take the return value and do a conditional check on it. (Point to the conditional check.) 
+              We just take the return value and do a conditional check on it. (Point to the conditional check.) If the player <strong>was</strong> able to join the game, we should save 10 ether and send away the rest. If the player <strong>wasn't</strong> able to join the game, we should not save any ether and everything should be sent away.
+
+              Now, this type signature actually causes the problematic implementation to fail <strong>at compile-time</strong>. This is actually quite amazing, because we have catched
           </aside>
           </section>
           <section data-transition="fade-in slide-out">
