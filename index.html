@@ -113,7 +113,7 @@ contract RPS {
 </section>
         </section>
         <section>
-          <section>
+          <section data-transition="slide-in fade-out" data-center="false">
             <h2>Catch errors using types</h2>
             <p>
               We start by including ether in the type signature:
@@ -121,12 +121,14 @@ contract RPS {
             <pre><code>
 addPlayer : Int -> (success : Bool)
             { IN: value >= 10 }
+
+
             </pre></code>
             <ul>
             <li  class="fragment">Function is undefined for value < 10</li>
             </ul>
           </section>
-          <section>
+          <section data-transition="fade-in fade-out" data-center="false">
             <h2>Catch errors using types</h2>
             <p>
               Describe ether flow:
@@ -142,7 +144,7 @@ addPlayer : Int -> (success : Bool)
             <li class="fragment">saved+sent defined for all paths</li>
             </ul>
           </section>
-          <section>
+          <section data-transition="fade-in slide-out">
             <h2>Catch errors using types</h2>
             <p>
               Hide player move
