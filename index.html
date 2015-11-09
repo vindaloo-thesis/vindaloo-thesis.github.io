@@ -41,7 +41,7 @@
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
         <section>
-          <h1>Vindaloo</h1>
+          <h1>Dependently typed smart contracts</h1>
           <h3>Type-driven contract development</h3>
           <p>
           <small>Jack Pettersson and Robert Edström</small><br>
@@ -55,31 +55,6 @@
             <li class="fragment">Catch bugs at compile time</li>
             <li class="fragment">What can be enforced using the type system?</li>
           </ul>
-        </section>
-        <section>
-          <h2>Common errors</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Mistake</th>
-                <th>Solution</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Openly communicating secret information</td>
-                <td>High-level cryptography library</td>
-              </tr>
-              <tr>
-                <td>Leaking ether</td>
-                <td>Encode ether flow in type system</td>
-              </tr>
-              <tr>
-                <td>Incentive incompatibility</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
         </section>
         <section>
           <section>
@@ -194,13 +169,38 @@ addPlayer {value} move = if !nPlayers < 2
           </pre></code>
         </section>
         <section>
+          <h2>Common errors</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Mistake</th>
+                <th>Solution</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Openly communicating secret information</td>
+                <td>High-level cryptography library</td>
+              </tr>
+              <tr>
+                <td>Leaking ether</td>
+                <td>Encode ether flow in type system</td>
+              </tr>
+              <tr>
+                <td>Incentive incompatibility</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section>
           <h2>Implementation</h2>
           <h3>Language: Idris</h3>
           <ul>
-            <li>Syntax similar to Haskell, but...</li>
-            <li>Strictly evaluated</li>
-            <li>Dependent types</li>
-            <li>Effects for environment interaction</li>
+            <li class="fragment">Syntax similar to Haskell, but...</li>
+            <li class="fragment">Strictly evaluated</li>
+            <li class="fragment">Dependent types</li>
+            <li class="fragment">Effects for environment interaction</li>
           </ul>
         </section>
         <section>
