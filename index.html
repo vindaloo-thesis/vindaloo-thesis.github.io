@@ -63,8 +63,9 @@ Hello everyone. My name is Robert, and I am currently working on my master's the
           </ul>
           <aside class="notes">
 Because of the way the Ethereum blockchain looks, there are some specific concerns for developers writing smart contracts. When depoying a smart contract to production, you want to be really sure that it behaves precisely as intended. An expressive type system could be a huge help here.
-          Also, recently, there has been research on the use of combinators in encoding financial contracts. A functional language that is more developer-friendly and high-level than LLL could therefore have its place in the ecosystem.
-Jack will now present an e oy contract to illustrate two types of errors that programmers make when they start developing smart contracts and how we can catch them at compile time.
+    We also want to standard behaviour and common patterns as part of the language or standard library.
+    Also, there has recently been research on the use of combinators in encoding financial contracts. A functional language that is more developer-friendly and high-level than LLL could therefore have its place in the ecosystem.
+Jack will now present two types of errors that programmers make when they start developing smart contracts and how we can catch them at compile time.
           </aside>
         </section>
         <section>
@@ -234,6 +235,11 @@ addPlayer {value} move = if !nPlayers < 2
             <li>Provide compositionality</li>
           </ul>
 </p>
+          <aside class="notes">
+            We have shown how dependent types and algebraic effects can be used in conjunction to define the flow of ether throughout the execution of a contract.
+            We have also seen on a high level how type annotations can ensure that secret information does not become public until it is intended to.
+            Finally, after listening to Lucius talk about compositionality, I hope you can see how this can be applied in smart contract development in a language like this. There has been a lot of research 
+          </aside>
         </section>
         <section>
         <h2>Work in progress</h2>
