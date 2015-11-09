@@ -94,13 +94,13 @@ contract RPS {
           </code></pre>
           <p class="fragment">Ether is not handled correctly!</p>
           <aside class="notes">
-            Ok, so we look at a simple rock-paper-scissors game, played for money. It costs 10 ether to join and the winner receives 20 ether. I hope you all know the rules..?<br>
+            Ok, so we look at a simple rock-paper-scissors game, played for money. The joining fee is 10 ether and the reward is 20 ether. I hope you all know the rules..?<br>
             <em>click</em><br>
             Here is a small example implementation of the function that lets players join the game. It's very straight forward: <em>point</em>
               <ul>
                 <li>The game can only be joined if it isn't full.</li>
                 <li>The player has to pay the fee.</li>
-                <li>If both of those are ok, we save the player's address and its move. For simplicity, the move is represented as 0, 1 or 2.</li>
+                <li>If both of those are ok, we save the player's address and move. For simplicity, the move is represented as 0, 1 or 2.</li>
               </ul>
             
             This seems quite reasonable, but there are actually a few bugs here. Can you see them? <em>pause</em><br>
@@ -133,7 +133,7 @@ contract RPS {
           <aside class="notes">
             So this is better. But there is one problem left!<br>
             <em>click</em><br>
-            Since the blockchain is transparent, the first player will reveal its move to the second player!
+            Since the blockchain is transparent, the first player will actually reveal its move to the second player!
           </aside>
 </section>
         </section>
@@ -165,9 +165,9 @@ contract RPS {
           </table>
 
           <aside class="notes">
-            Ok, so we have (at least) two classes of errors that are common for developers that are new to smart contracts. What we are trying to do is to use an expressive type system to help solve these.<br>
+            Ok, so we have (at least) two classes of errors that are common for developers that are new to smart contracts. What we are trying to do is to use an expressive type system to help identify and solve these.<br>
             <em>point</em><br>
-            To do this, we are including both the ether flow and cryptography in the type system.
+            To do this, we are including both the ether flow and cryptography directly in the type system.
           </aside>
         </section>
 
@@ -193,9 +193,9 @@ addPlayer : Int -> (success : Bool)
             <em>click</em><br>
             As you can see, we have also put a precondition on the value, saying that this function requires at least 10 ether to run. Otherwise the transaction is invalid for our purposes, and any ether is returned to the sender.<br>
 
-            This is certainly neat, and useful for asynchronous execution models, but it doesn't solve <strong>our</strong> problems.<br>
+            This is certainly neat, and useful in asynchronous execution models, but it doesn't solve <strong>our</strong> problems.<br>
 
-            But as you can see, we already know <strong>both</strong> the function's result <strong>and</strong> the transaction value. This is actually enough to specify how the function should handle the ether in all execution paths.
+            But as you can see, we already know <strong>both</strong> the function's result <strong>and</strong> the transaction value. This is actually enough information to specify how the function should handle ether in all execution paths.
           </aside>
 
           </section>
@@ -216,9 +216,11 @@ addPlayer : Int -> (success : Bool)
             </ul>
 
             <aside class="notes">
-              We just take the return value and do a conditional check on it. <em>Point to the conditional check.</em> If the player <strong>was</strong> able to join the game, we should save 10 ether and send away the rest. And if the player <strong>wasn't</strong> able to join the game, we should not save any ether and everything should be sent away.
+              We just take the return value and do a conditional check on it. <em>Point to the conditional check.</em><br>
+
+              If the player <strong>was</strong> able to join the game, we should save 10 ether and send away the rest. And if the player <strong>wasn't</strong> able to join the game, we should not save any ether and everything should be sent away.
               <em>click</em>
-              Now, this type signature would cause the problematic implementation from before to fail <strong>at compile-time</strong>. This is actually quite amazing, because we have catched a large class of bugs without any testing or formal verification whatsoever. This technique can actually be used to encode almost <strong>any</strong> contract behavior directly in the type signatures. But this requires some additional effort from the developer, and we will not go any deeper into this.
+              Now, this type signature would cause the problematic implementation from before to fail <strong>at compile-time</strong>. This is actually quite amazing, because we have catched a large class of errors without any testing or formal verification whatsoever. This technique can actually be used to encode almost <strong>any</strong> contract behavior directly in the type signatures. But this requires some additional effort from the developer, and we will not go any deeper into this.
 
               But we still have the problem that the player's move is exposed to the opponent. The way to solve this is to use cryptographic commitments. They allow you to commit to a secret value and then reveal it at a later time. But developers shouldn't have to implement commitment schemes for all contracts that handle secrets. That is tedious and, more importantly, it's very error-prone.
           </aside>
