@@ -56,16 +56,16 @@ Hello everyone. My name is Robert, and I am currently working on my master's the
         <section>
           <h2>Motivations</h2>
           <ul>
-            <li class="fragment">Catch bugs at compile time</li>
-            <li class="fragment">What can be enforced using the type system?</li>
+            <li>Catch bugs at compile time</li>
+            <li>What can be enforced using the type system?</li>
             <li class="fragment">Annotate types to generate boilerplate code</li>
             <li class="fragment">Functional paradigm</li>
           </ul>
           <aside class="notes">
 When you deploy a smart contract to production, you want to be really sure that it behaves precisely as intended. The more the compilator can catch, the better.
-<br><br>
-    We also want to give developers high-level abstractions of standard behaviour and common patterns. Stuff like boilerplate for errors and cleanup and high-level cryptography.
-<br><br>
+<br><em>click</em><br>
+    We also want to give developers high-level abstractions of standard behaviour and common patterns. Stuff like high-level cryptography and boilerplate for errors and cleanup.
+<br><em>click</em><br>
     Also, I hope that after hearing Greg this morning you can appreciate that a language that allows for compositionality of combinators and functions can be really powerful. LLL is functional, but too low-level for a lot of purposes. 
 Jack will now present two types of errors that programmers make when they start developing smart contracts and how we can catch them at compile time.
           </aside>
@@ -322,8 +322,10 @@ addPlayer {value} move = if !nPlayers < 2
 </p>
           <aside class="notes">
             We have shown how dependent types and algebraic effects can be used together to define the flow of ether throughout the execution of a contract.
+<br><em>click</em><br>
             We have also seen on a high level how type annotations can ensure that secret information doesn't become public until it's supposed to.
-            Finally, after listening to Greg talk about compositionality this morning, I hope you can see how this can be applied in smart contract development in a language like Idris. 
+<br><em>click</em><br>
+            Finally, we have a language where compositionality can be achieved in a natural way.
           </aside>
         </section>
         <section>
@@ -340,10 +342,9 @@ addPlayer {value} move = if !nPlayers < 2
 
         <section style="text-align: left;">
           <h1>THANK YOU</h1>
-            <p>- Questions? </p>
-            <p class="fragment"> - <a href="https://github.com/vindaloo-thesis/examples">https://github.com/vindaloo-thesis/examples</a> </p>
-            <p class="fragment">- Feedback? Ideas? Talk to us! :)</p>
-            <p class="fragment">- <a href="mailto:jack.pettersson@consensys.net">jack.pettersson@consensys.net</a>, <a href="mailto:robert@cacti.se">robert@cacti.se</a></p>
+            <p> - <a href="https://github.com/vindaloo-thesis/examples">https://github.com/vindaloo-thesis/examples</a> </p>
+            <p>- Questions? Feedback? Ideas? Talk to us! :)</p>
+            <p>- <a href="mailto:jack.pettersson@consensys.net">jack.pettersson@consensys.net</a>, <a href="mailto:robert@cacti.se">robert@cacti.se</a></p>
           </p>
           <aside class="notes">
             If you have any experience of problems that could be interesting for us to look at, or other ideas, please come talk to us.
