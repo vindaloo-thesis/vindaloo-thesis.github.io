@@ -305,8 +305,13 @@ addPlayer {value} move = if !nPlayers < 2
           </ul>
 
           <aside class="notes">
-            All right, so how have we solved all this? Some of you might have noticed that the syntax we use is very similar to Haskell. When we first started looking at this, we wanted to have something like Haskell on the blockchain. But the more we looked at the problems, the more we realized that dependent types could be really helpful. Also, Haskell is is lazily evaluated, which would become prohibitively expensive to be useful in real life.
-            Then we found Idris. Idris is very similar to Haskell on the surface, but has dependent types. Side effects is modeled with algebraic effects, which is what allows us to be so expressive in the type signatures. 
+            All right, so how have we implemented all this? Some of you might have noticed that the syntax we use is very similar to Haskell. When we first started looking at this, we wanted to have something like Haskell on the blockchain. But the more we looked at the problems, the more we realized that dependent types could be really helpful. Also, Haskell is is lazily evaluated, which would become prohibitively expensive to be useful in real life.
+            Then we found Idris.
+<br><em>click</em><br>
+            Idris is very similar to Haskell on the surface, but has dependent types.
+<br><em>click</em><br>
+            Side effects is modeled with algebraic effects. These two things combined allow us to be so expressive in the type signatures. 
+<br><em>click</em><br>
             Finally, Idris is strictly evaluated. So for our purposes it's like a better Haskell.
           </aside>
 
@@ -316,8 +321,8 @@ addPlayer {value} move = if !nPlayers < 2
 <p>An expressive type-system can...
           <ul>
             <li>Catch large classes of errors at compile-time</li>
-            <li>Generate boiler-plate code</li>
-            <li>Provide compositionality</li>
+            <li class="fragment">Generate boiler-plate code</li>
+            <li class="fragment">Provide compositionality</li>
           </ul>
 </p>
           <aside class="notes">
@@ -363,7 +368,7 @@ addPlayer {value} move = if !nPlayers < 2
       // Full list of configuration options available at:
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
-        controls: true,
+        controls: false,
         progress: true,
         history: true,
         center: false,
