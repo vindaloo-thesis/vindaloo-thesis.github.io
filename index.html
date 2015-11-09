@@ -269,9 +269,9 @@ addPlayer {value} move = if !nPlayers < 2
           </ul>
 
           <aside class="notes">
-            Ok, so how have we solved all this? Some of you might have noticed that the syntax we use is very similar to Haskell. We're using a language called Idris, which is inspired by Haskell but has dependent types and algebraic side-effects. This is what allows us to be so expressive in the type signatures.
-          
-            When we first started looking at this project, we just wanted to have something like Haskell on the blockchain. The more we looked at the problems, the more we realized that dependent types would be really neat. Lazy evaluation would also be prohibitively expensive to be useful in real life. The we found Idris. It's a recent research language that 
+            All right, so how have we solved all this? Some of you might have noticed that the syntax we use is very similar to Haskell. When we first started looking at this, we wanted to have something like Haskell on the blockchain. But the more we looked at the problems, the more we realized that dependent types could be really helpful. Also, Haskell is is lazily evaluated, which would become prohibitively expensive to be useful in real life. Then we found Idris. Idris is very similar to
+            Haskell on the surface, but has dependent types. Side effects is modeled with algebraic effects, which is what allows us to be so expressive in the type signatures. 
+            Finally, Idris is strictly evaluated. So for our purposes it's like a better Haskell.
           </aside>
 
         </section>
@@ -287,7 +287,7 @@ addPlayer {value} move = if !nPlayers < 2
           <aside class="notes">
             We have shown how dependent types and algebraic effects can be used in conjunction to define the flow of ether throughout the execution of a contract.
             We have also seen on a high level how type annotations can ensure that secret information does not become public until it is intended to.
-            Finally, after listening to Lucius talk about compositionality, I hope you can see how this can be applied in smart contract development in a language like this. There has been a lot of research 
+            Finally, after listening to Greg talk about compositionality, I hope you can see how this can be applied in smart contract development in a language like this. 
           </aside>
         </section>
         <section>
