@@ -94,16 +94,16 @@ contract RPS {
           </code></pre>
           <p class="fragment">Ether is not handled correctly!</p>
           <aside class="notes">
-            Ok, so we look at a simple rock-paper-scissors game where each player pays 10 ether to join and the winner receives 20 ether. I think you all know the rules..?<br>
+            Ok, so we look at a simple rock-paper-scissors game, played for money. It costs 10 ether to join and the winner receives 20 ether. I hope you all know the rules..?<br>
             <em>click</em><br>
-            Here is a small example implementation of the function for players to join the game. It's very straight forward:
+            Here is a small example implementation of the function that lets players join the game. It's very straight forward: <em>point</em>
               <ul>
                 <li>The game can only be joined if it isn't full.</li>
                 <li>The player has to pay the fee.</li>
-                <li>We save the player's move and address. The move is just 0, 1 or 2.</li>
+                <li>If both of those are ok, we save the player's address and its move. For simplicity, the move is represented as 0, 1 or 2.</li>
               </ul>
             
-            This seems quite reasonable, but there is actually a few bugs here. Can you see them?<br>
+            This seems quite reasonable, but there are actually a few bugs here. Can you see them? <em>pause</em><br>
             
             What happens if a third player tries to join the game? <em>click</em> He loses all his ether, and there is no way to retrieve it! So let's fix this.
           </aside>
@@ -165,7 +165,9 @@ contract RPS {
           </table>
 
           <aside class="notes">
-            Ok, so we have (at least) two classes of errors that are common for developers that are getting into smart contract development. What we are trying to do is to see if we can use en expressive type system to solve these.
+            Ok, so we have (at least) two classes of errors that are common for developers that are new to smart contracts. What we are trying to do is to use an expressive type system to help solve these.<br>
+            <em>point</em><br>
+            To do this, we are including both the ether flow and cryptography in the type system.
           </aside>
         </section>
 
@@ -187,11 +189,13 @@ addPlayer : Int -> (success : Bool)
             </ul>
 
             <aside class="notes">
-            Ok, so if we want to constrain the ether flow using the type system, what can we do? Well, we can start with including the transaction value in the type signature, like this.<br>
+            So if we want to encode the ether flow in the type system, what can we do? Well, we can start with including the transaction value in the type signature, like this.<br>
             <em>click</em><br>
-            As you can see, we have also predicated the value, saying that this function requires at least 10 ether to run. Otherwise the transaction is invalid for our purposes, and any ether is returned to the sender.<br>
+            As you can see, we have also put a precondition on the value, saying that this function requires at least 10 ether to run. Otherwise the transaction is invalid for our purposes, and any ether is returned to the sender.<br>
 
-            This is certainly neat, but it doesn't solve our problems. But as you can see, we already know both the function's result and the transaction value. This is actually enough to specify how the function should handle the ether in all execution paths.
+            This is certainly neat, and useful for asynchronous execution models, but it doesn't solve <strong>our</strong> problems.<br>
+
+            But as you can see, we already know <strong>both</strong> the function's result <strong>and</strong> the transaction value. This is actually enough to specify how the function should handle the ether in all execution paths.
           </aside>
 
           </section>
@@ -212,11 +216,11 @@ addPlayer : Int -> (success : Bool)
             </ul>
 
             <aside class="notes">
-              We just take the return value and do a conditional check on it. <em>Point to the conditional check.</em> If the player <strong>was</strong> able to join the game, we should save 10 ether and send away the rest. If the player <strong>wasn't</strong> able to join the game, we should not save any ether and everything should be sent away.
+              We just take the return value and do a conditional check on it. <em>Point to the conditional check.</em> If the player <strong>was</strong> able to join the game, we should save 10 ether and send away the rest. And if the player <strong>wasn't</strong> able to join the game, we should not save any ether and everything should be sent away.
               <em>click</em>
-              Now, this type signature actually causes the problematic implementation to fail <strong>at compile-time</strong>. This is actually quite amazing, because we have catched a large class of bugs without any testing or formal verification whatsoever. This technique can actually be used to encode *any* contract behavior directly in the type signatures. But this requires some additional effort from the developer, and we will not go any deeper into this.
+              Now, this type signature would cause the problematic implementation from before to fail <strong>at compile-time</strong>. This is actually quite amazing, because we have catched a large class of bugs without any testing or formal verification whatsoever. This technique can actually be used to encode almost <strong>any</strong> contract behavior directly in the type signatures. But this requires some additional effort from the developer, and we will not go any deeper into this.
 
-              But we still have the problem that the player's move is exposed to the opponent. The way to solve this is to use cryptographic commitments. What they allow you to do is to commit to a secret value and then reveal it at a later time. But developers shouldn't have to implement commitment schemes over and over. It is tedious and error-prone.
+              But we still have the problem that the player's move is exposed to the opponent. The way to solve this is to use cryptographic commitments. They allow you to commit to a secret value and then reveal it at a later time. But developers shouldn't have to implement commitment schemes for all contracts that handle secrets. That is tedious and, more importantly, it's very error-prone.
           </aside>
           </section>
           <section data-transition="fade-in slide-out">
@@ -238,7 +242,11 @@ open : Commit a -> a
             </code></pre></li>
             </ul>
             <aside class="notes">
-              The way we solve this is by annotating the type of the move, to indicate that this value should be treated as a commitment. <em>click</em> The compiler will then automatically generate a function for the sender to reveal it. <em>click</em> When it has been revealed, it can be accessed in-code by using the "open" function from the standard library. It takes any commitment and returns the actual value. If the commitment has not been revealed when "open" is called, the transaction is invalid for our purposes and any ether is returned to the sender.
+              The way we solve this is by annotating the types of secret values, to indicate that they should be treated as commitments, as we can see here. <em>point</em> <br>
+              <em>click</em><br>
+              The compiler will then automatically generate a function for the sender to reveal it.<br>
+              <em>click</em><br>
+              When it has been revealed, it can be accessed in-code by using the "open" function from the standard library. It takes any commitment and returns the actual value. If the commitment hasn't been revealed, "open" will return any ether to the sender and abort execution.
             </aside>
           </section>
         </section>
@@ -252,12 +260,15 @@ addPlayer : Commit Int -> (success : Bool)
 addPlayer {value} move = if !nPlayers < 2
                            then do save 10
                                    send (value-10) !sender
-                                   -- save move
-                                   -- increment counter
+                                   // save move
+                                   // increment counter
                                    return True
                            else do send value !sender
                                    return False   
           </pre></code>
+          <aside class="notes">
+            So our final implementation looks like this. Notice that we are forced to explicitly save any ether that we want to keep. 
+          </aside>
         </section>
         <section>
           <h2>Implementation</h2>
