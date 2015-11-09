@@ -40,12 +40,13 @@
 
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
-        <section>
-          <h1>Dependently typed smart contracts</h1>
+        <section style="text-align: left;">
           <h3>Type-driven contract development</h3>
           <p>
+          <div style="line-height:70%;">
           <small>Jack Pettersson and Robert Edström</small><br>
             <small>MSc thesis at Chalmers University of Technology, Sweden</small>
+          </div>
           </p>
           <aside class="notes">
 Hello everyone. My name is Robert, and I am currently working on my master's thesis together with Jack. We're here to talk to you about how smart contracts are a perfect fit for a dependently typed functional and why we want to create a new language targeting the EVM. We will walk you through a simple example illustrating a class of errors common among new contract developers and how an expressive type system can help.
@@ -57,6 +58,7 @@ Hello everyone. My name is Robert, and I am currently working on my master's the
           <ul>
             <li class="fragment">Catch bugs at compile time</li>
             <li class="fragment">What can be enforced using the type system?</li>
+            <li class="fragment">Annotate types to generate boilerplate code</li>
             <li class="fragment">Functional paradigm</li>
           </ul>
           <aside class="notes">
@@ -67,7 +69,7 @@ Jack will now present an e oy contract to illustrate two types of errors that pr
         </section>
         <section>
           <section data-transition="slide-in fade-out">
-          <h2>Leaking ether:<br>Rock-paper-scissors</h2>
+          <h2>Case study:<br>Rock-paper-scissors</h2>
 <p>A game of two players. Joining costs exactly 10 ether.</p>
           <pre class="fragment"><code class="hljs" data-trim contenteditable>
 contract RPS {
@@ -90,7 +92,7 @@ contract RPS {
           <p class="fragment">Can you see any problems?</p>
           </section>
           <section data-transition="fade-in fade-out">
-          <h2>Leaking ether:<br>Rock-paper-scissors</h2>
+          <h2>Case study:<br>Rock-paper-scissors</h2>
           <p>Amended version</p>
           <pre><code class="hljs" data-trim contenteditable>
 contract RPS {
@@ -110,8 +112,38 @@ contract RPS {
   //[...]
 }
           </code></pre>
+                    <p class="fragment">Better, but the move is still revealed!</p>
 </section>
         </section>
+
+        <section>
+          <h2>Common errors</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Mistake</th>
+                <th>Solution</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>No handling of ether</td>
+                <td>Encode ether flow in the type system</td>
+              </tr>
+              <tr>
+                <td>Openly communicating secret information</td>
+                <td>Include crypto schemes in the language and stdlib</td>
+              </tr>
+              <!--
+              <tr>
+                <td>Incentive incompatibility</td>
+                <td>?</td>
+              </tr> -->
+            </tbody>
+          </table>
+        </section>
+
+
         <section>
           <section data-transition="slide-in fade-out" data-center="false">
             <h2>Catch errors using types</h2>
@@ -135,13 +167,14 @@ addPlayer : Int -> (success : Bool)
             </p>
             <pre><code>
 addPlayer : Int -> (success : Bool)
-            { IN: value >= 10;
+            { IN:   value >= 10;
               SEND: success ? value - 10 : value;
               SAVE: success ? 10         : 0 }
             </pre></code>
             <ul>
             <li>Function is undefined for value < 10</li>
             <li class="fragment">saved+sent defined for all paths</li>
+            <li class="fragment">Previous implementation wouldn't type check</li>
             </ul>
           </section>
           <section data-transition="fade-in slide-out">
@@ -151,7 +184,7 @@ addPlayer : Int -> (success : Bool)
             </p>
             <pre><code>
 addPlayer : Commit Int -> (success : Bool)
-            { IN: value >= 10;
+            { IN:   value >= 10;
               SEND: success ? value - 10 : value;
               SAVE: success ? 10         : 0 }
             </pre></code>
@@ -169,11 +202,12 @@ open : Commit a -> a
           <h2>Type-correct implementation</h2>
           <pre><code class="Haskell">
 addPlayer : Commit Int -> (success : Bool)
-            { IN: value >= 10;
+            { IN:   value >= 10;
               SEND: success ? value - 10 : value;
               SAVE: success ? 10         : 0 }
 addPlayer {value} move = if !nPlayers < 2
-                           then do save value
+                           then do save 10
+                                   send (value-10) !sender
                                    -- save move
                                    -- increment counter
                                    return True
@@ -182,57 +216,39 @@ addPlayer {value} move = if !nPlayers < 2
           </pre></code>
         </section>
         <section>
-          <h2>Common errors</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Mistake</th>
-                <th>Solution</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Openly communicating secret information</td>
-                <td>High-level cryptography library</td>
-              </tr>
-              <tr>
-                <td>Leaking ether</td>
-                <td>Encode ether flow in type system</td>
-              </tr>
-              <tr>
-                <td>Incentive incompatibility</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-        <section>
           <h2>Implementation</h2>
           <h3>Language: Idris</h3>
           <ul>
-            <li class="fragment">Syntax similar to Haskell, but...</li>
-            <li class="fragment">Strictly evaluated</li>
+            <li class="fragment">Very similar to Haskell, but...</li>
             <li class="fragment">Dependent types</li>
-            <li class="fragment">Effects for environment interaction</li>
+            <li class="fragment">Algebraic effects for environment interaction</li>
+            <li class="fragment">Strictly evaluated</li>
           </ul>
         </section>
         <section>
           <h2>Summary</h2>
 <p>An expressive type-system can...
           <ul>
-            <li>Catch errors at compile-time</li>
+            <li>Catch large classes of errors at compile-time</li>
             <li>Generate boiler-plate code</li>
             <li>Future: Composability of combinators</li>
           </ul>
 </p>
         </section>
-
+        <section>
+        <h2>Work in progress</h2>
+         <ul>
+         	<li>Lots of future work</li>
+         	<li>Syntax and APIs in flux</li>
+         </ul>
+        </section>
 
         <section style="text-align: left;">
           <h1>THANK YOU</h1>
             <p>- Questions? </p>
             <p class="fragment"> - <a href="https://github.com/vindaloo-thesis/examples">https://github.com/vindaloo-thesis/examples</a> </p>
             <p class="fragment">- Feedback? Ideas? Talk to us! :)</p>
+            <p class="fragment">- <a href="mailto:jack.pettersson@consensys.net">jack.pettersson@consensys.net</a>, <a href="mailto:robert@cacti.se">robert@cacti.se</a></p>
           </p>
         </section>
 
